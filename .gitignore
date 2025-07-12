@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Django
+*.sqlite3
+*.log
+db.sqlite3
+/media
+/staticfiles
+
+# Virtual envs
+.env
+.venv/
+
+# VSCode
+.vscode/
+
+# macOS/Linux
+.DS_Store
+
+# Poetry
+poetry.lock
