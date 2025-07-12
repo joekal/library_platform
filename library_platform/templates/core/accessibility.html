@@ -1,0 +1,294 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans 'Accessibility - BiblioTech' %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-4">
+                    <i class="fas fa-universal-access text-primary me-3"></i>
+                    {% trans 'Accessibility at BiblioTech' %}
+                </h1>
+                <p class="lead">
+                    {% trans 'We are committed to ensuring that BiblioTech is accessible to everyone, regardless of their abilities or the technologies they use.' %}
+                </p>
+            </div>
+
+            <!-- Commitment Section -->
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card border-primary">
+                        <div class="card-body p-4">
+                            <h2 class="h4 text-primary mb-3">{% trans 'Our Accessibility Commitment' %}</h2>
+                            <p class="mb-3">
+                                {% trans 'BiblioTech is designed to be inclusive and accessible to all users. We follow the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards and continuously work to improve the accessibility of our platform.' %}
+                            </p>
+                            <p class="mb-0">
+                                {% trans 'We believe that everyone should have equal access to information and reading materials, and we are dedicated to removing barriers that might prevent anyone from using our platform effectively.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accessibility Features -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="h3 text-center mb-5">{% trans 'Accessibility Features' %}</h2>
+                    <div class="row">
+                        {% for category in accessibility_features %}
+                        <div class="col-lg-6 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body p-4">
+                                    <h3 class="h5 text-primary mb-3">{{ category.category }}</h3>
+                                    <ul class="list-unstyled">
+                                        {% for feature in category.features %}
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            {{ feature }}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Use Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="h3 mb-4">{% trans 'How to Use Accessibility Features' %}</h2>
+                    <div class="accordion" id="accessibilityAccordion">
+                        <!-- Visual Accessibility -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="visualHeading">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#visualCollapse" aria-expanded="true" aria-controls="visualCollapse">
+                                    <i class="fas fa-eye me-2"></i>
+                                    {% trans 'Visual Accessibility Settings' %}
+                                </button>
+                            </h3>
+                            <div id="visualCollapse" class="accordion-collapse collapse show" 
+                                 aria-labelledby="visualHeading" data-bs-parent="#accessibilityAccordion">
+                                <div class="accordion-body">
+                                    <h4 class="h6 mb-3">{% trans 'Adjusting Visual Settings:' %}</h4>
+                                    <ol class="mb-3">
+                                        <li>{% trans 'Go to your Profile menu and select "Settings"' %}</li>
+                                        <li>{% trans 'Navigate to the "Accessibility" section' %}</li>
+                                        <li>{% trans 'Choose your preferred font size (Small, Medium, Large, Extra Large)' %}</li>
+                                        <li>{% trans 'Select a theme (Light, Dark, High Contrast)' %}</li>
+                                        <li>{% trans 'Enable dyslexia-friendly fonts if needed' %}</li>
+                                    </ol>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        {% trans 'Changes are applied immediately and saved to your profile.' %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Keyboard Navigation -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="keyboardHeading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#keyboardCollapse" aria-expanded="false" aria-controls="keyboardCollapse">
+                                    <i class="fas fa-keyboard me-2"></i>
+                                    {% trans 'Keyboard Navigation' %}
+                                </button>
+                            </h3>
+                            <div id="keyboardCollapse" class="accordion-collapse collapse" 
+                                 aria-labelledby="keyboardHeading" data-bs-parent="#accessibilityAccordion">
+                                <div class="accordion-body">
+                                    <h4 class="h6 mb-3">{% trans 'Keyboard Shortcuts:' %}</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>{% trans 'Key' %}</th>
+                                                    <th>{% trans 'Action' %}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><kbd>Tab</kbd></td>
+                                                    <td>{% trans 'Navigate to next interactive element' %}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><kbd>Shift + Tab</kbd></td>
+                                                    <td>{% trans 'Navigate to previous interactive element' %}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+                                                    <td>{% trans 'Activate buttons and links' %}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><kbd>Escape</kbd></td>
+                                                    <td>{% trans 'Close modals and dropdowns' %}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><kbd>Arrow Keys</kbd></td>
+                                                    <td>{% trans 'Navigate within menus and lists' %}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Screen Reader Support -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="screenReaderHeading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#screenReaderCollapse" aria-expanded="false" aria-controls="screenReaderCollapse">
+                                    <i class="fas fa-volume-up me-2"></i>
+                                    {% trans 'Screen Reader Support' %}
+                                </button>
+                            </h3>
+                            <div id="screenReaderCollapse" class="accordion-collapse collapse" 
+                                 aria-labelledby="screenReaderHeading" data-bs-parent="#accessibilityAccordion">
+                                <div class="accordion-body">
+                                    <h4 class="h6 mb-3">{% trans 'Compatible Screen Readers:' %}</h4>
+                                    <ul class="mb-3">
+                                        <li>NVDA (Windows)</li>
+                                        <li>JAWS (Windows)</li>
+                                        <li>VoiceOver (macOS/iOS)</li>
+                                        <li>TalkBack (Android)</li>
+                                        <li>Orca (Linux)</li>
+                                    </ul>
+                                    <div class="alert alert-success">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        {% trans 'All content is properly labeled and structured for screen readers.' %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Audio Features -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="audioHeading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#audioCollapse" aria-expanded="false" aria-controls="audioCollapse">
+                                    <i class="fas fa-headphones me-2"></i>
+                                    {% trans 'Audio Features' %}
+                                </button>
+                            </h3>
+                            <div id="audioCollapse" class="accordion-collapse collapse" 
+                                 aria-labelledby="audioHeading" data-bs-parent="#accessibilityAccordion">
+                                <div class="accordion-body">
+                                    <h4 class="h6 mb-3">{% trans 'Available Audio Options:' %}</h4>
+                                    <ul class="mb-3">
+                                        <li>{% trans 'Audiobook playback with speed control' %}</li>
+                                        <li>{% trans 'Text-to-speech for any content' %}</li>
+                                        <li>{% trans 'Audio descriptions for images' %}</li>
+                                        <li>{% trans 'Keyboard controls for audio players' %}</li>
+                                    </ul>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        {% trans 'Audio settings can be customized in your profile preferences.' %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standards Compliance -->
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card bg-light">
+                        <div class="card-body p-4">
+                            <h2 class="h4 mb-3">{% trans 'Standards Compliance' %}</h2>
+                            <p class="mb-3">
+                                {% trans 'BiblioTech is built to comply with:' %}
+                            </p>
+                            <ul class="mb-3">
+                                <li>{% trans 'Web Content Accessibility Guidelines (WCAG) 2.1 Level AA' %}</li>
+                                <li>{% trans 'Section 508 of the Rehabilitation Act' %}</li>
+                                <li>{% trans 'European Accessibility Act (EAA)' %}</li>
+                                <li>{% trans 'Americans with Disabilities Act (ADA)' %}</li>
+                            </ul>
+                            <p class="mb-0">
+                                {% trans 'We regularly test our platform with assistive technologies and conduct accessibility audits to ensure compliance.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Section -->
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card border-primary">
+                        <div class="card-body p-4 text-center">
+                            <h2 class="h4 text-primary mb-3">{% trans 'Accessibility Feedback' %}</h2>
+                            <p class="mb-4">
+                                {% trans 'We are continuously working to improve accessibility. If you encounter any barriers or have suggestions for improvement, please let us know.' %}
+                            </p>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                <a href="{% url 'core:contact' %}" class="btn btn-primary">
+                                    <i class="fas fa-envelope me-2"></i>
+                                    {% trans 'Report Issue' %}
+                                </a>
+                                <a href="mailto:accessibility@bibliotech.com" class="btn btn-outline-primary">
+                                    <i class="fas fa-at me-2"></i>
+                                    {% trans 'Email Accessibility Team' %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.accordion-button {
+    font-weight: 500;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--primary-50);
+    color: var(--primary-700);
+}
+
+kbd {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.875rem;
+    color: #495057;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+}
+
+.card.border-primary {
+    border-width: 2px;
+}
+
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 2rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,298 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{% trans 'Interactive digital library with AI recommendations, multilingual support, and accessibility features' %}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{% trans 'library, books, ebooks, audiobooks, reading, AI recommendations' %}{% endblock %}">
+    
+    <title>{% block title %}{% trans 'BiblioTech - Interactive Library Platform' %}{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- OpenDyslexic Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/opendyslexic-regular.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Accessibility attributes -->
+    <script>
+        // Apply user preferences immediately to prevent flash
+        const preferences = JSON.parse(localStorage.getItem('userPreferences') || '{}');
+        if (preferences.theme) {
+            document.documentElement.classList.add('theme-' + preferences.theme);
+        }
+        if (preferences.fontSize) {
+            document.documentElement.classList.add('font-size-' + preferences.fontSize);
+        }
+        if (preferences.dyslexicFont) {
+            document.documentElement.classList.add('dyslexic-font');
+        }
+    </script>
+</head>
+<body class="{% if user.is_authenticated %}theme-{{ user.theme }} font-size-{{ user.font_size }}{% if user.dyslexic_font %} dyslexic-font{% endif %}{% endif %}">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">{% trans 'Skip to main content' %}</a>
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="{% trans 'Main navigation' %}">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
+                <i class="fas fa-book-open me-2" aria-hidden="true"></i>
+                BiblioTech
+            </a>
+            
+            <!-- Mobile toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Search bar -->
+                <div class="navbar-nav me-auto">
+                    <div class="search-container mx-3">
+                        <form class="d-flex" role="search" action="{% url 'books:search' %}" method="get">
+                            <div class="position-relative">
+                                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                                <input class="form-control search-input" type="search" name="search" 
+                                       placeholder="{% trans 'Search books, authors...' %}" 
+                                       aria-label="{% trans 'Search' %}"
+                                       value="{{ request.GET.search|default:'' }}">
+                                <div class="search-results position-absolute w-100 bg-white border rounded-bottom shadow-lg" 
+                                     style="top: 100%; z-index: 1000; display: none;"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Main navigation links -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" 
+                           href="{% url 'core:home' %}">
+                            <i class="fas fa-home me-1" aria-hidden="true"></i>
+                            {% trans 'Home' %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.app_name == 'books' %}active{% endif %}" 
+                           href="{% url 'books:list' %}">
+                            <i class="fas fa-book me-1" aria-hidden="true"></i>
+                            {% trans 'Catalog' %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.app_name == 'recommendations' %}active{% endif %}" 
+                           href="{% url 'recommendations:list' %}">
+                            <i class="fas fa-star me-1" aria-hidden="true"></i>
+                            {% trans 'Recommendations' %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.app_name == 'groups' %}active{% endif %}" 
+                           href="{% url 'groups:list' %}">
+                            <i class="fas fa-users me-1" aria-hidden="true"></i>
+                            {% trans 'Groups' %}
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- User menu -->
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" 
+                               id="userDropdown" role="button" data-bs-toggle="dropdown" 
+                               aria-expanded="false" aria-label="{% trans 'User menu' %}">
+                                {% if user.avatar %}
+                                    <img src="{{ user.avatar.url }}" alt="{% trans 'User avatar' %}" 
+                                         class="rounded-circle me-2" width="24" height="24">
+                                {% else %}
+                                    <i class="fas fa-user-circle me-2" aria-hidden="true"></i>
+                                {% endif %}
+                                {{ user.get_full_name|default:user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                                        <i class="fas fa-user me-2" aria-hidden="true"></i>
+                                        {% trans 'Profile' %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:reading_history' %}">
+                                        <i class="fas fa-history me-2" aria-hidden="true"></i>
+                                        {% trans 'Reading History' %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:settings' %}">
+                                        <i class="fas fa-cog me-2" aria-hidden="true"></i>
+                                        {% trans 'Settings' %}
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account_logout' %}">
+                                        <i class="fas fa-sign-out-alt me-2" aria-hidden="true"></i>
+                                        {% trans 'Logout' %}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_login' %}">
+                                <i class="fas fa-sign-in-alt me-1" aria-hidden="true"></i>
+                                {% trans 'Login' %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_signup' %}">
+                                <i class="fas fa-user-plus me-1" aria-hidden="true"></i>
+                                {% trans 'Sign Up' %}
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    <!-- Language switcher -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" 
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                           aria-label="{% trans 'Language selection' %}">
+                            <i class="fas fa-globe me-1" aria-hidden="true"></i>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {{ LANGUAGE_CODE|upper }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% get_available_languages as LANGUAGES %}
+                            {% for lang_code, lang_name in LANGUAGES %}
+                                <li>
+                                    <a class="dropdown-item {% if lang_code == LANGUAGE_CODE %}active{% endif %}" 
+                                       href="{% url 'set_language' %}?language={{ lang_code }}&next={{ request.get_full_path }}">
+                                        {{ lang_name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main content -->
+    <main id="main-content" role="main" tabindex="-1">
+        <!-- Messages -->
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <i class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% elif message.tags == 'warning' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2" aria-hidden="true"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" 
+                                aria-label="{% trans 'Close' %}"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <!-- Page content -->
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5 mt-5" role="contentinfo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>{% trans 'BiblioTech' %}</h5>
+                    <p class="text-muted">
+                        {% trans 'Your interactive digital library with AI-powered recommendations and accessibility features.' %}
+                    </p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>{% trans 'Library' %}</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'books:list' %}" class="text-muted text-decoration-none">{% trans 'Browse Books' %}</a></li>
+                        <li><a href="{% url 'books:genres' %}" class="text-muted text-decoration-none">{% trans 'Genres' %}</a></li>
+                        <li><a href="{% url 'books:authors' %}" class="text-muted text-decoration-none">{% trans 'Authors' %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>{% trans 'Community' %}</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'groups:list' %}" class="text-muted text-decoration-none">{% trans 'Reading Groups' %}</a></li>
+                        <li><a href="{% url 'recommendations:list' %}" class="text-muted text-decoration-none">{% trans 'Recommendations' %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>{% trans 'Support' %}</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">{% trans 'Help Center' %}</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">{% trans 'Accessibility' %}</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">{% trans 'Contact Us' %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>{% trans 'Legal' %}</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">{% trans 'Privacy Policy' %}</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">{% trans 'Terms of Service' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">
+                        &copy; {% now "Y" %} BiblioTech. {% trans 'All rights reserved.' %}
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-muted me-3" aria-label="{% trans 'Facebook' %}">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="text-muted me-3" aria-label="{% trans 'Twitter' %}">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="text-muted me-3" aria-label="{% trans 'Instagram' %}">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="text-muted" aria-label="{% trans 'LinkedIn' %}">
+                            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block extra_js %}{% endblock %}
+    
+    <!-- Live region for screen reader announcements -->
+    <div id="live-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+</body>
+</html>

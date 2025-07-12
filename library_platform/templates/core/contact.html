@@ -1,0 +1,172 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans 'Contact Us - BiblioTech' %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-4">{% trans 'Contact Us' %}</h1>
+                <p class="lead">
+                    {% trans 'We\'d love to hear from you. Send us a message and we\'ll respond as soon as possible.' %}
+                </p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h5 mb-4">{% trans 'Send us a message' %}</h3>
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="name" class="form-label">{% trans 'Name' %} *</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">{% trans 'Email' %} *</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">{% trans 'Subject' %} *</label>
+                                    <select class="form-select" id="subject" name="subject" required>
+                                        <option value="">{% trans 'Select a subject' %}</option>
+                                        <option value="general">{% trans 'General Inquiry' %}</option>
+                                        <option value="technical">{% trans 'Technical Support' %}</option>
+                                        <option value="accessibility">{% trans 'Accessibility Issue' %}</option>
+                                        <option value="content">{% trans 'Content Request' %}</option>
+                                        <option value="feedback">{% trans 'Feedback' %}</option>
+                                        <option value="partnership">{% trans 'Partnership' %}</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="message" class="form-label">{% trans 'Message' %} *</label>
+                                    <textarea class="form-control" id="message" name="message" rows="6" required 
+                                              placeholder="{% trans 'Please describe your inquiry in detail...' %}"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    {% trans 'Send Message' %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h5 mb-4">{% trans 'Get in Touch' %}</h3>
+                            
+                            <div class="contact-info">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-envelope fa-lg text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">{% trans 'Email' %}</h6>
+                                        <p class="text-muted mb-0">support@bibliotech.com</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-phone fa-lg text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">{% trans 'Phone' %}</h6>
+                                        <p class="text-muted mb-0">+33 1 23 45 67 89</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mb-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-clock fa-lg text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">{% trans 'Support Hours' %}</h6>
+                                        <p class="text-muted mb-0">
+                                            {% trans 'Monday - Friday' %}<br>
+                                            9:00 AM - 6:00 PM (CET)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h6 class="mb-3">{% trans 'Quick Help' %}</h6>
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'core:accessibility' %}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-universal-access me-2"></i>
+                                    {% trans 'Accessibility Guide' %}
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-question-circle me-2"></i>
+                                    {% trans 'FAQ' %}
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-book me-2"></i>
+                                    {% trans 'User Guide' %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-body p-4 text-center">
+                            <h6 class="mb-3">{% trans 'Follow Us' %}</h6>
+                            <div class="social-links">
+                                <a href="#" class="btn btn-outline-primary btn-sm me-2 mb-2">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm me-2 mb-2">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm me-2 mb-2">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm mb-2">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.contact-info .d-flex {
+    padding: 1rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.contact-info .d-flex:last-child {
+    border-bottom: none;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.social-links a:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+</style>
+{% endblock %}

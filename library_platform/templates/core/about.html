@@ -1,0 +1,228 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans 'About BiblioTech' %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 fw-bold mb-4">{% trans 'About BiblioTech' %}</h1>
+            <p class="lead">
+                {% trans 'BiblioTech is an innovative digital library platform that combines cutting-edge technology with accessibility and social collaboration to create the ultimate reading experience.' %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <h2 class="h3 mb-4">{% trans 'Our Mission' %}</h2>
+            <p class="mb-4">
+                {% trans 'We believe that knowledge should be accessible to everyone, regardless of their abilities, language, or background. Our mission is to break down barriers to reading and learning by providing an inclusive, intelligent, and collaborative digital library experience.' %}
+            </p>
+            <p>
+                {% trans 'Through advanced AI recommendations, comprehensive accessibility features, and social reading tools, we empower readers to discover, enjoy, and share knowledge in ways that work best for them.' %}
+            </p>
+        </div>
+        <div class="col-lg-6">
+            <div class="bg-primary bg-opacity-10 p-4 rounded">
+                <h3 class="h5 mb-3">{% trans 'Our Values' %}</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        {% trans 'Accessibility for all users' %}
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        {% trans 'Inclusive design principles' %}
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        {% trans 'Community-driven learning' %}
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        {% trans 'Innovation in education' %}
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        {% trans 'Privacy and security' %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="h3 text-center mb-5">{% trans 'Platform Features' %}</h2>
+            <div class="row">
+                {% for feature in features %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="{{ feature.icon }} fa-3x text-primary"></i>
+                            </div>
+                            <h4 class="h5 mb-3">{{ feature.title }}</h4>
+                            <p class="text-muted">{{ feature.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="h3 text-center mb-4">{% trans 'Technology & Innovation' %}</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-brain fa-2x text-info"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>{% trans 'AI-Powered Recommendations' %}</h5>
+                            <p class="text-muted">
+                                {% trans 'Our machine learning algorithms analyze your reading patterns, preferences, and behavior to suggest books you\'ll love.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-universal-access fa-2x text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>{% trans 'Advanced Accessibility' %}</h5>
+                            <p class="text-muted">
+                                {% trans 'Built with WCAG 2.1 AA compliance, featuring screen reader support, keyboard navigation, and customizable display options.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-globe fa-2x text-warning"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>{% trans 'Multilingual Support' %}</h5>
+                            <p class="text-muted">
+                                {% trans 'Interface and content available in multiple languages with seamless switching and localized experiences.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-users fa-2x text-danger"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>{% trans 'Social Reading' %}</h5>
+                            <p class="text-muted">
+                                {% trans 'Connect with other readers through groups, discussions, reviews, and collaborative reading experiences.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="h3 text-center mb-5">{% trans 'Our Commitment' %}</h2>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="text-center">
+                        <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                        <h4 class="h5">{% trans 'Privacy First' %}</h4>
+                        <p class="text-muted">
+                            {% trans 'Your reading data and personal information are protected with industry-leading security measures.' %}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="text-center">
+                        <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                        <h4 class="h5">{% trans 'Community Driven' %}</h4>
+                        <p class="text-muted">
+                            {% trans 'We listen to our users and continuously improve based on community feedback and needs.' %}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="text-center">
+                        <i class="fas fa-rocket fa-3x text-success mb-3"></i>
+                        <h4 class="h5">{% trans 'Continuous Innovation' %}</h4>
+                        <p class="text-muted">
+                            {% trans 'We\'re constantly developing new features and improving existing ones to enhance your reading experience.' %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="bg-primary bg-opacity-10 p-5 rounded">
+                <h2 class="h3 mb-3">{% trans 'Join Our Community' %}</h2>
+                <p class="lead mb-4">
+                    {% trans 'Experience the future of digital reading. Join thousands of readers who have already discovered their new favorite books with BiblioTech.' %}
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>
+                            {% trans 'Get Started' %}
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'books:list' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-book me-2"></i>
+                        {% trans 'Explore Library' %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.feature-icon {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .feature-icon i {
+        font-size: 2rem !important;
+    }
+}
+</style>
+{% endblock %}
